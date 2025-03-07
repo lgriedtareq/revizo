@@ -6,6 +6,7 @@ class User(models.Model):
     user_id = models.AutoField(primary_key=True, unique=True)
 
 class Subject(models.Model):
+    # comment
     subject_id = models.AutoField(primary_key=True, unique=True)
     subject_name = models.CharField(max_length=128)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subjects")
