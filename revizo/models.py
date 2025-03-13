@@ -1,37 +1,45 @@
 from django.db import models
-#TODO: Create model,Population Script.
-
-class User(models.Model):
-    #TODO: add other related fields 
-    user_id = models.AutoField(primary_key=True, unique=True)
+from django.contrib.auth.models import User
 
 class Subject(models.Model):
-    # comment
-    subject_id = models.AutoField(primary_key=True, unique=True)
-    subject_name = models.CharField(max_length=128)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subjects")
+    subject_name = models.CharField(max_length=128, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_subjects")
 
+    def __str__(self):
+        return self.subject_name
 
 class Topic(models.Model):
-    topic_id = models.AutoField(primary_key=True, unique=True)
     topic_name = models.CharField(max_length=128)
-    learning_score = models.IntegerField(default=0)
-    study_next = models.IntegerField(default=0)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="topics")
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="subject_topics")
 
+    class Meta:
+        unique_together = ('topic_name', 'subject')  
+
+    def __str__(self):
+        return f"{self.topic_name} ({self.subject.subject_name})"
 
 class Card(models.Model):
-    card_id = models.AutoField(primary_key=True, unique=True)
+    id = models.AutoField(primary_key=True)
     card_front = models.TextField()
     card_back = models.TextField()
-    confidence_level = models.IntegerField(default=0)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="cards")
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="topic_cards")
 
+    def __str__(self):
+        return f"Card: {self.card_front[:30]}... ({self.topic.topic_name})"
 
 class Explanation(models.Model):
-    explain_id = models.AutoField(primary_key=True, unique=True)
     ai_explanation = models.TextField()
-    #TODO: set as int instaed of time depending on implementaion it will be edited.
-    ai_explanation_date = models.IntegerField(default=0)
-    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="explanations")
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="card_explanations")
 
+    def __str__(self):
+        return f"Explanation for Card ID {self.card.id}"
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    website = models.URLField(blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+""" building basis,  rememeber to add other fields such as scores and dates once the basic functionality is working """
