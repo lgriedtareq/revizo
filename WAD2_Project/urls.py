@@ -19,4 +19,5 @@ from revizo import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('revizo/', views.some_view, name='revizo')
 ]

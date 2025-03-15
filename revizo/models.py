@@ -1,15 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import User
 #TODO: Create model,Population Script.
 
-class User(models.Model):
+class UserProfile(models.Model):
     #TODO: add other related fields 
-    user_id = models.AutoField(primary_key=True, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.user.username
 
 class Subject(models.Model):
     # comment
     subject_id = models.AutoField(primary_key=True, unique=True)
     subject_name = models.CharField(max_length=128)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subjects")
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="subjects")
 
 
 class Topic(models.Model):
