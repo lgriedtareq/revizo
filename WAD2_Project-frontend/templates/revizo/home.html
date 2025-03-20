@@ -38,7 +38,9 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fetch('http://127.0.0.1:8000/api/data/')  // ✅ Adjust this URL if needed
+            console.log("Fetching API Data...");  // ✅ Debugging Log
+            
+            fetch('http://127.0.0.1:8001/api/data/')  // ✅ Updated Backend API URL
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -46,12 +48,14 @@
                     return response.json();
                 })
                 .then(data => {
-                    let container = document.getElementById('api-data'); // ✅ Target the correct container
+                    console.log("Fetched API Data:", data);  // ✅ Debugging Log
+                    
+                    let container = document.getElementById('api-data');
                     if (container) {
-                        container.innerHTML = '';  // ✅ Clear previous data
+                        container.innerHTML = ''; // ✅ Clear previous data
 
                         if (data.length === 0) {
-                            container.innerHTML = "<p>No subjects available.</p>"; // ✅ Handle empty data
+                            container.innerHTML = "<p>No subjects available.</p>";
                         } else {
                             data.forEach(item => {
                                 let div = document.createElement('div');
