@@ -1,0 +1,73 @@
+{% extends "revizo/base.html" %}
+{% load static %}
+
+{% block title %}Home | Revizo{% endblock %}
+
+{% block content %}
+    <header class="hero">
+        <h1>Master anything, one card at a time.</h1>
+        <p class="subtitle">Crush exams, master languages, and retain knowledge effortlessly with AI-powered spaced repetition. Your smarter way to learn starts here.</p>
+
+        <form method="GET" action="{% url 'revizo:study' %}" class="study-form">
+            <div class="form-group">
+                <label for="subject">Choose a Subject:</label>
+                <select name="subject" id="subject" class="form-select">
+                    <option value="">Select a Subject</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="topic">Choose a Topic:</label>
+                <select name="topic" id="topic" class="form-select">
+                    <option value="">Select a Topic</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary">Start Studying</button>
+        </form>
+    </header>
+
+    <!-- ✅ Container for API Data -->
+    <div id="data-container">
+        <h2>Available Subjects</h2>
+        <div id="api-data"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('http://127.0.0.1:8000/api/data/')  // ✅ Adjust this URL if needed
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    let container = document.getElementById('api-data'); // ✅ Target the correct container
+                    if (container) {
+                        container.innerHTML = '';  // ✅ Clear previous data
+
+                        if (data.length === 0) {
+                            container.innerHTML = "<p>No subjects available.</p>"; // ✅ Handle empty data
+                        } else {
+                            data.forEach(item => {
+                                let div = document.createElement('div');
+                                div.innerHTML = `<h3>${item.name}</h3><p>${item.description}</p>`;
+                                container.appendChild(div);
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    let container = document.getElementById('api-data');
+                    if (container) {
+                        container.innerHTML = "<p>Error loading data. Please try again later.</p>";
+                    }
+                });
+        });
+    </script>
+{% endblock %}

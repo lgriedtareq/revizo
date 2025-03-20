@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{% load static %} 
+
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revizo | {% block title %}Flashcard Learning{% endblock %}</title>
+
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <script>
+        function getCSRFToken() {
+            return document.querySelector('meta[name="csrf-token"]').content;
+        }
+        
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!(/^GET|HEAD|OPTIONS|TRACE$/.test(settings.type))) {
+                    xhr.setRequestHeader("X-CSRFToken", getCSRFToken());
+                }
+            }
+        });
+    </script>
+
+    <link rel="stylesheet" href="{% static 'revizo/css/base.css' %}">  
+</head>
+<body>
+
+    <nav id="top-navbar">
+        <div class="container nav-container">
+            <a href="{% url 'revizo:home' %}" class="logo">
+                <img id="logo" 
+                src="{% static 'revizo/images/logo.png' %}" 
+                data-light = "{% static 'revizo/images/logo.png' %}"
+                data-dark = "{% static 'revizo/images/darklogo.png' %}"
+                alt="Revizo Logo">
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="{% url 'revizo:flashcards' %}">Manage Flashcards</a></li>
+            </ul>
+
+            <div class="auth-links">
+                <a href="{% url 'revizo:register' %}">Sign Up</a>
+                <a href="{% url 'revizo:login' %}">Login</a>
+                <button id="toggle-theme" class="night-mode-toggle">🌙</button>
+            </div>
+            
+        </div>
+    </nav>
+
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p><a href="{% url 'revizo:about' %}">About</a></p>
+            <p><a href="{% url 'revizo:contact_us' %}">Contact Us</a></p>
+            <p>&copy; 2025 Revizo. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'revizo/js/dropdown.js' %}" defer></script>
+    <script src="{% static 'revizo/js/theme.js' %}" defer></script>
+</body>
+</html>
