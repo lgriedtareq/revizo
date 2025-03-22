@@ -3,6 +3,14 @@
 
 {% block title %}Home | Revizo{% endblock %}
 
+{% block head_extra %}
+<script>
+    window.REVIZO_URLS = {
+        getTopics: "{% url 'revizo:get_topics' %}"
+    };
+</script>
+{% endblock %}
+
 {% block content %}
     <header class="hero">
         <h1>Master anything, one card at a time.</h1>
@@ -13,9 +21,11 @@
                 <label for="subject">Choose a Subject:</label>
                 <select name="subject" id="subject" class="form-select">
                     <option value="">Select a Subject</option>
-                    {% for subject in subjects %}
-                        <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
-                    {% endfor %}
+                    {% if subjects %}
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                        {% endfor %}
+                    {% endif %}
                 </select>
             </div>
 
@@ -30,3 +40,4 @@
         </form>
     </header>
 {% endblock %}
+ 

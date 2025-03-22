@@ -1,0 +1,21 @@
+{% extends 'revizo/base.html' %}
+{% load static %}
+
+{% block title%}
+    Login
+{% endblock %}
+
+{% block content %}
+    <h1>Login to Revizo</h1>
+    {% if error %}
+        <div style="color: red;">{{ error }}</div>
+    {% endif %}
+    <form id="login_form" method="post" action="{% url 'revizo:login' %}">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" size="50"><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" size="50"><br>
+        <input type="submit" value="Login">
+    </form>
+{% endblock %}

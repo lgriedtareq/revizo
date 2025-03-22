@@ -1,0 +1,25 @@
+{% extends 'revizo/base.html' %}
+{% load static %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block content %}
+    <h1>Register for Revizo</h1>
+    
+    {% if registered %}
+        <strong>You are already registered!</strong>
+        <a href="{% url 'revizo:home' %}">Return to the homepage.</a><br />
+    {% else %}
+         <strong>Register here!</strong><br />
+        <form id="user_form" method="post" action="{% url 'revizo:register' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.errors }}
+            {{ profile_form.errors }}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            <input type="submit" name="submit" value="Register" />
+        </form>
+    {% endif %}
+{% endblock %}
