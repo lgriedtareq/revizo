@@ -14,6 +14,9 @@ class Subject(models.Model):
     subject_id = models.AutoField(primary_key=True, unique=True)
     subject_name = models.CharField(max_length=128)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="subjects")
+    
+    def __str__(self):
+        return self.subject_name
 
 
 class Topic(models.Model):
@@ -22,6 +25,9 @@ class Topic(models.Model):
     learning_score = models.IntegerField(default=0)
     study_next = models.IntegerField(default=0)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="topics")
+    
+    def __str__(self):
+        return self.topic_name
 
 
 class Card(models.Model):
@@ -30,6 +36,10 @@ class Card(models.Model):
     card_back = models.TextField()
     confidence_level = models.IntegerField(default=0)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="cards")
+    
+    def __str__(self):
+        return f"Front: {self.card_front}\nBack: {self.card_back}"
+    
 
 
 class Explanation(models.Model):
@@ -38,4 +48,7 @@ class Explanation(models.Model):
     #TODO: set as int instaed of time depending on implementaion it will be edited.
     ai_explanation_date = models.IntegerField(default=0)
     card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="explanations")
+    
+    def __str__(self):
+        return self.ai_explanation
 
