@@ -1,0 +1,17 @@
+{% extends 'revizo/base.html' %}
+{% load static %}
+
+{% block title %}
+    Activation Complete
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Activation Complete</h1>
+    <div class="success-message">
+        <p>Your account has been activated successfully!</p>
+        <p>You can now log in and start using Revizo.</p>
+    </div>
+    <a href="{% url 'auth_login' %}" class="btn-primary">Login</a>
+</div>
+{% endblock %} 

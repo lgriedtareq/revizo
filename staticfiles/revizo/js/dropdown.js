@@ -6,17 +6,33 @@ document.addEventListener("DOMContentLoaded", function () {
         topicDropdown.innerHTML = '<option value="">Select a Topic</option>';
 
         if (subjectId) {
-            fetch(`/get-topics/?subject_id=` + subjectId)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(topic => {
-                        let option = document.createElement("option");
-                        option.value = topic.id;
-                        option.textContent = topic.name;
-                        topicDropdown.appendChild(option);
-                    });
-                })
-                .catch(error => console.error("Error fetching topics:", error));
+            const url = (window.REVIZO_URLS?.getTopics || '/revizo/get-topics/') + `?subject_id=${subjectId}`;
+
+            fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.forEach(topic => {
+                    let option = document.createElement("option");
+                    option.value = topic.topic_id;
+                    option.textContent = topic.topic_name;
+                    topicDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching topics:", error);
+                topicDropdown.innerHTML = '<option value="">Error loading topics</option>';
+            });
         }
     });
 });

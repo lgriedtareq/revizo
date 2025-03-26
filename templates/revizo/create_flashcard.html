@@ -1,0 +1,45 @@
+{% extends 'revizo/base.html' %}
+{% load static %}
+{% load form_tags %}
+
+{% block title %}
+    Create Flashcard
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Create a New Flashcard</h1>
+    
+    {% if not user_subjects %}
+        <div class="info-message">
+            <p>You need to create a subject before you can create flashcards.</p>
+            <p>Please create a subject first to organize your flashcards.</p>
+            <a href="{% url 'revizo:create_subject' %}" class="btn-primary">Create a Subject</a>
+        </div>
+    {% else %}
+        {% if form.errors %}
+            <div class="error-message">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <form method="post" class="study-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                    {{ field|add_class:"form-select" }}
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary">Create Flashcard</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %} 

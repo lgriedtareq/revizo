@@ -1,43 +1,109 @@
 {% extends "revizo/base.html" %}
 {% load static %}
 
-{% block title %}Home | Revizo{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block head_extra %}
-<script>
-    window.REVIZO_URLS = {
-        getTopics: "{% url 'revizo:get_topics' %}"
-    };
-</script>
+<link rel="stylesheet" href="{% static 'revizo/css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-    <header class="hero">
-        <h1>Master anything, one card at a time.</h1>
-        <p class="subtitle">Crush exams, master languages, and retain knowledge effortlessly with AI-powered spaced repetition. Your smarter way to learn starts here.</p>
+<div class="hero">
+    <h1>Master anything, one card at a time.</h1>
+    <p class="subtitle">Crush exams, master languages, and retain knowledge effortlessly with AI-powered spaced repetition. Your smarter way to learn starts here.</p>
+</div>
 
-        <form method="GET" action="{% url 'revizo:study' %}" class="study-form">
-            <div class="form-group">
-                <label for="subject">Choose a Subject:</label>
-                <select name="subject" id="subject" class="form-select">
-                    <option value="">Select a Subject</option>
-                    {% if subjects %}
+<div class="content-container">
+    <div class="left-section">
+        <div class="study-section">
+            <h2>Start Studying</h2>
+            <form class="study-form" method="get" action="{% url 'revizo:study' %}">
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <select id="subject" name="subject_id" class="form-select" required>
+                        <option value="">Select a subject</option>
                         {% for subject in subjects %}
-                            <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                        <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
                         {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="topic">Topic:</label>
+                    <select id="topic" name="topic_id" class="form-select" required>
+                        <option value="">Select a topic</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Start Studying</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="right-section">
+        <div class="suggestions-section">
+            <h2>Suggested Topics to Study</h2>
+            <div class="suggested-topics">
+                {% if user.is_authenticated %}
+                    {% if suggested_topics %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Topic</th>
+                                <th>Learning Score</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for topic in suggested_topics %}
+                            <tr>
+                                <td>{{ topic.subject_name }}</td>
+                                <td>{{ topic.topic_name }}</td>
+                                <td>{{ topic.learning_score }}%</td>
+                                <td>
+                                    <a href="{% url 'revizo:study' %}?subject_id={{ topic.subject_id }}&topic_id={{ topic.topic_id }}" 
+                                       class="btn-study-now">Study Now</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="no-suggestions">No topics currently need review.</p>
                     {% endif %}
-                </select>
+                {% else %}
+                    <p class="no-suggestions">Please log in to see your personalized study suggestions.</p>
+                {% endif %}
             </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-            <div class="form-group">
-                <label for="topic">Choose a Topic:</label>
-                <select name="topic" id="topic" class="form-select">
-                    <option value="">Select a Topic</option>
-                </select>
-            </div>
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const subjectSelect = document.getElementById('subject');
+    const topicSelect = document.getElementById('topic');
 
-            <button type="submit" class="btn-primary">Start Studying</button>
-        </form>
-    </header>
+    subjectSelect.addEventListener('change', function() {
+        const subjectId = this.value;
+        topicSelect.innerHTML = '<option value="">Select a topic</option>';
+        
+        if (subjectId) {
+            fetch(`/revizo/get-topics/?subject_id=${subjectId}`)
+                .then(response => response.json())
+                .then(topics => {
+                    topics.forEach(topic => {
+                        const option = document.createElement('option');
+                        option.value = topic.id;
+                        option.textContent = topic.topic_name;
+                        topicSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+});
+</script>
 {% endblock %}
  

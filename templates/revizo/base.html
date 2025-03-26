@@ -41,7 +41,12 @@
             </a>
 
             <ul class="nav-links">
-                <li><a href="{% url 'revizo:flashcards' %}">Manage Flashcards</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'revizo:flashcards' %}">Manage Flashcards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'revizo:create_organization' %}">Create</a>
+                </li>
             </ul>
 
             <div class="auth-links">
@@ -64,12 +69,13 @@
     <footer>
         <div class="footer-container">
             <p><a href="{% url 'revizo:about' %}">About</a></p>
-            <p><a href="{% url 'revizo:contact_us' %}">Contact Us</a></p>
+            <p><a href="{% url 'revizo:contact' %}">Contact Us</a></p>
             <p>&copy; 2025 Revizo. All rights reserved.</p>
         </div>
     </footer>
     
-    <script src="{% static 'revizo/js/dropdown.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{% static 'revizo/js/theme.js' %}" defer></script>
 </body>
 </html>

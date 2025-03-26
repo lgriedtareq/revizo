@@ -1,25 +1,34 @@
 {% extends 'revizo/base.html' %}
 {% load static %}
+{% load form_tags %}
 
 {% block title %}
     Register
 {% endblock %}
 
 {% block content %}
+<div class="hero">
     <h1>Register for Revizo</h1>
-    
     {% if registered %}
-        <strong>You are already registered!</strong>
-        <a href="{% url 'revizo:home' %}">Return to the homepage.</a><br />
+        <div class="success-message">You are now registered!</div>
+        <a href="{% url 'revizo:home' %}" class="btn-primary">Return to the homepage</a>
     {% else %}
-         <strong>Register here!</strong><br />
-        <form id="user_form" method="post" action="{% url 'revizo:register' %}" enctype="multipart/form-data">
+        {% if user_form.errors or profile_form.errors %}
+            <div class="error-message">
+                {{ user_form.errors }}
+                {{ profile_form.errors }}
+            </div>
+        {% endif %}
+        <form id="user_form" method="post" action="{% url 'revizo:register' %}" class="study-form">
             {% csrf_token %}
-            {{ user_form.errors }}
-            {{ profile_form.errors }}
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
-            <input type="submit" name="submit" value="Register" />
+            {% for field in user_form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                    {{ field|add_class:"form-select" }}
+                </div>
+            {% endfor %}
+            <button type="submit" name="submit" class="btn-primary">Register</button>
         </form>
     {% endif %}
+</div>
 {% endblock %}

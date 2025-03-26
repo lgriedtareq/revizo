@@ -1,18 +1,79 @@
 {% extends 'revizo/base.html' %}
 {% load static %}
 
-{% block title_block %}
-    About Revizo
+{% block title %}About Revizo{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'revizo/css/about.css' %}">
 {% endblock %}
 
-{% block body_block %}
-    <h1>Rango says...</h1>
-
-    <div>
-        here is the about page.<br />
-        <strong>This tutorial has been put together by Tareq Lgried.</strong><br />
-        
-        <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
-        <img src="{{ MEDIA_URL}}cat.jpg" alt="Picture of a Cat" />
+{% block content %}
+<div class="about-container">
+    <div class="about-header">
+        <h1>About Revizo</h1>
     </div>
+
+    <div class="about-content">
+        
+        <div class="team-section">
+            <h2>Team Members & Contributions</h2>
+            <div class="table-responsive">
+                <table class="team-table">
+                    <thead>
+                        <tr>
+                            <th>Team Member</th>
+                            <th>Email</th>
+                            <th>Role(s) & Contributions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tareq Lgried</td>
+                            <td>2619592L@student.gla.ac.uk</td>
+                            <td>
+                                <ul>
+                                    <li>Frontend Developer</li>
+                                    <li>User Authentication System</li>
+                                    <li>CSS Styling</li>
+                                    <li>AJAX Implementation</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nehutal Islam</td>
+                            <td>2998107I@student.gla.ac.uk</td>
+                            <td>
+                                <ul>
+                                    <li>Backend Developer</li>
+                                    <li>Database Design & Implementation</li>
+                                    <li>Data Models</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Rehman Khaliq Noreen</td>
+                            <td>2765081K@student.gla.ac.uk</td>
+                            <td>
+                                <ul>
+                                    <li>Backend Developer</li>
+                                    <li>Data Models</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Erkhembileg Lkhagvasuren</td>
+                            <td>2982320L@student.gla.ac.uk</td>
+                            <td>
+                                <ul>
+                                    <li>Frontend Developer</li>
+                                    <li>Wireframe Design</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

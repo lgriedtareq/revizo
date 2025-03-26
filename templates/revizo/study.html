@@ -1,0 +1,83 @@
+{% extends "revizo/base.html" %}
+{% load static %}
+
+{% block title %}Study{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'revizo/css/study.css' %}">
+<meta name="csrf-token" content="{{ csrf_token }}">
+<script>
+    window.REVIZO_URLS = {
+        getTopics: "{% url 'revizo:get_topics' %}",
+        filterCards: "{% url 'revizo:filter_flashcards' %}",
+        getExplanation: "{% url 'revizo:get_card_explanation' %}",
+        updateConfidence: "{% url 'revizo:update_confidence' 0 %}"
+    };
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="study-header">
+        <h2 id="studying-label">Studying: <span id="subject-topic"></span></h2>
+    </div>
+
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <div class="card-content" id="card-front"></div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="card-content" id="card-back"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="flip-btn" class="btn btn-primary">Flip Card</button>
+        <button id="next-btn" class="btn btn-success">Next Card</button>
+        <button id="ai-explain-button" class="btn btn-info">🤖 AI Explain</button>
+    </div>
+
+    <div class="confidence-controls">
+        <h4>How well did you know this?</h4>
+        <div class="confidence-buttons">
+            <button class="btn btn-danger confidence-btn" data-level="1">Still Learning</button>
+            <button class="btn btn-warning confidence-btn" data-level="2">Getting There</button>
+            <button class="btn btn-success confidence-btn" data-level="3">Know It!</button>
+        </div>
+    </div>
+</div>
+
+<!-- AI Explanation Modal -->
+<div class="modal fade" id="aiExplanationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">AI Explanation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="explanation-content"></div>
+                <div id="explanation-loading" class="text-center" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p>Getting AI explanation...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'revizo/js/study.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'revizo/base.html' %}
+{% load static %}
+{% load form_tags %}
+
+{% block title %}
+    Create Topic
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Create a New Topic</h1>
+    
+    {% if form.errors %}
+        <div class="error-message">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <form method="post" class="study-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                {{ field|add_class:"form-select" }}
+                {% if field.help_text %}
+                    <small class="help-text">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary">Create Topic</button>
+    </form>
+</div>
+{% endblock %} 
