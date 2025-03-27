@@ -7,28 +7,26 @@
 {% endblock %}
 
 {% block content %}
-<div class="hero">
-    <h1>Register for Revizo</h1>
-    {% if registered %}
-        <div class="success-message">You are now registered!</div>
-        <a href="{% url 'revizo:home' %}" class="btn-primary">Return to the homepage</a>
-    {% else %}
+{% if registered %}
+    <div class="success-message">You are now registered!</div>
+    <a href="{% url 'revizo:home' %}" class="btn btn-primary">Return to the homepage</a>
+{% else %}
+    <form id="user_form" method="post" action="{% url 'revizo:register' %}" class="register-form">
+        {% csrf_token %}
+        <h1>Register for Revizo</h1>
         {% if user_form.errors or profile_form.errors %}
             <div class="error-message">
                 {{ user_form.errors }}
                 {{ profile_form.errors }}
             </div>
         {% endif %}
-        <form id="user_form" method="post" action="{% url 'revizo:register' %}" class="study-form">
-            {% csrf_token %}
-            {% for field in user_form %}
-                <div class="form-group">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
-                    {{ field|add_class:"form-select" }}
-                </div>
-            {% endfor %}
-            <button type="submit" name="submit" class="btn-primary">Register</button>
-        </form>
-    {% endif %}
-</div>
+        {% for field in user_form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                {{ field|add_class:"" }}
+            </div>
+        {% endfor %}
+        <button type="submit" name="submit" class="btn btn-primary">Register</button>
+    </form>
+{% endif %}
 {% endblock %}
