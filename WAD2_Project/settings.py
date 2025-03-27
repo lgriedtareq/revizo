@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'revizo',
-    'registration',
 ]
 
 MIDDLEWARE = [
@@ -149,13 +148,6 @@ STATICFILES_DIRS = [
 LOGIN_URL = '/accounts/login/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
-
-# Registration settings
-REGISTRATION_OPEN = True  # If True, users can register
-ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window
-REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
-LOGIN_REDIRECT_URL = '/revizo/'  # The page you want users to arrive at after they successful log in
-REGISTRATION_FORM = 'revizo.forms.CustomRegistrationForm'
 
 # OpenAI API Configuration
 ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '')  # Get API key from environment variable
