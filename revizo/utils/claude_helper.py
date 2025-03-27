@@ -39,7 +39,7 @@ class ClaudeHelper:
             # Make the API call using Claude's messages API
             response = self.client.messages.create(
                 model=self.model,
-                max_tokens=300,
+                max_tokens=500,
                 temperature=0.7,
                 system=system_prompt,
                 messages=[
@@ -110,3 +110,4 @@ class ClaudeHelper:
         except Exception as e:
             print(f"Error generating suggestions: {str(e)}")
             return ["Unable to generate suggestions at this time."] 
+        
