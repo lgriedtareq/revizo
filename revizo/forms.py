@@ -1,9 +1,28 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile, Card, Subject, Topic
+
+class CustomRegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+            UserProfile.objects.create(user=user)
+        return user
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(error_messages={
+        'unique': 'A user with that username already exists.'
+    })
 
     class Meta:
         model = User
@@ -12,7 +31,7 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('website', 'picture')
+        fields = ()
 
 class SubjectForm (forms.ModelForm):
     class Meta:
@@ -24,7 +43,7 @@ class TopicForm (forms.ModelForm):
         model = Topic
         fields = ["topic_name", "subject"]
 
-class FlashCardForm (forms.ModelForm):
+class FlashCardForm(forms.ModelForm):
     class Meta:
         model = Card
         fields = ["card_front", "card_back", "topic"]
@@ -33,6 +52,12 @@ class FlashCardForm (forms.ModelForm):
             "card_back": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "topic": forms.Select(attrs={"class": "form-control"})
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['topic'].queryset = Topic.objects.filter(subject__user=user)
 
 class FlashCardFilterForm(forms.Form):
     subject = forms.ModelChoiceField(queryset=Subject.objects.all(), required=True, empty_label="Select Subject")

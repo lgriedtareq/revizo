@@ -1,0 +1,255 @@
+.hero {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: var(--bg-color);
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.hero .subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.content-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--dropdown-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.left-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.right-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.study-section, .suggestions-section {
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.study-section:hover, .suggestions-section:hover {
+    transform: scale(1.01);
+}
+
+.study-section h2,
+.suggestions-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+.study-form {
+    background-color: var(--dropdown-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--dropdown-bg);
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+}
+
+.suggestions-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+th {
+    font-weight: 600;
+    background-color: var(--table-header-bg);
+}
+
+.btn-study {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-study:hover {
+    background-color: #218838;
+    color: white;
+    text-decoration: none;
+}
+
+.no-suggestions {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 2rem;
+}
+
+.suggested-topics {
+    background-color: var(--dropdown-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggested-topics h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.suggested-topics table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.suggested-topics th,
+.suggested-topics td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.suggested-topics th {
+    font-weight: 500;
+    background-color: var(--navbar-bg);
+}
+
+.suggested-topics tr:hover {
+    background-color: var(--hover-bg);
+}
+
+.btn-study-now {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-study-now:hover {
+    background-color: #218838;
+}
+
+@media (max-width: 1024px) {
+    .content-container {
+        flex-direction: column;
+    }
+
+    .left-section, .right-section {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero .subtitle {
+        font-size: 1rem;
+    }
+
+    .content-container {
+        flex-direction: column;
+    }
+
+    .left-section, .right-section {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .suggested-topics {
+        margin-top: 20px;
+    }
+} 

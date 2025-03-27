@@ -25,6 +25,12 @@
         });
     </script>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'revizo/css/base.css' %}">  
     {% block head_extra %}{% endblock %}
 </head>
@@ -44,6 +50,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'revizo:flashcards' %}">Manage Flashcards</a>
                 </li>
+                {% if request.resolver_match.url_name != 'study' and request.resolver_match.url_name != 'home' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'revizo:home' %}">Study</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'revizo:create_organization' %}">Create</a>
                 </li>
@@ -68,8 +79,7 @@
 
     <footer>
         <div class="footer-container">
-            <p><a href="{% url 'revizo:about' %}">About</a></p>
-            <p><a href="{% url 'revizo:contact' %}">Contact Us</a></p>
+            <p><a href="{% url 'revizo:about' %}">About Us</a></p>
             <p>&copy; 2025 Revizo. All rights reserved.</p>
         </div>
     </footer>
@@ -77,5 +87,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{% static 'revizo/js/theme.js' %}" defer></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

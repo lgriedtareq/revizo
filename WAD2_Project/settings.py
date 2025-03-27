@@ -11,12 +11,19 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -27,7 +34,7 @@ SECRET_KEY = 'niq41t%!1vr+w@g-6g+(^2!uxfal&(95h8$@y^xv@=pb%2n1te'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
 # Application definition
@@ -40,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'revizo',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +128,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Media files
-MEDIA_ROOT = MEDIA_DIR
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
@@ -138,6 +146,16 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static') 
 ]
 
-LOGIN_URL = 'rango:login'
+LOGIN_URL = '/accounts/login/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+
+# Registration settings
+REGISTRATION_OPEN = True  # If True, users can register
+ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window
+REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
+LOGIN_REDIRECT_URL = '/revizo/'  # The page you want users to arrive at after they successful log in
+REGISTRATION_FORM = 'revizo.forms.CustomRegistrationForm'
+
+# OpenAI API Configuration
+ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '')  # Get API key from environment variable
