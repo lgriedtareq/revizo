@@ -17,9 +17,10 @@ source venv/bin/activate  # On Windows, use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file in the project root and add your Anthropic API key:
+4. Create a `.env` file in the project root and add your API keys:
 ```
 ANTHROPIC_API_KEY=your_api_key_here
+SECRET_KEY=your_django_secret_key_here
 ```
 
 5. Set up the database:
@@ -27,15 +28,30 @@ ANTHROPIC_API_KEY=your_api_key_here
 python manage.py migrate
 ```
 
-6. Create a superuser (optional):
+6. Populate the database with sample data:
+```bash
+python population_script.py
+```
+
+7. Create a superuser (optional):
 ```bash
 python manage.py createsuperuser
 ```
 
-7. Run the development server:
+8. Run the development server:
 ```bash
 python manage.py runserver
 ```
+
+9. Visit http://127.0.0.1:8000/ in your browser
+
+## Features
+- User registration and authentication
+- Flashcard creation and management
+- AI-powered explanations and suggestions
+- Spaced repetition learning system
+- Dark mode support
+
 ## External Sources & Acknowledgments
 
 ### APIs & Services
@@ -57,3 +73,4 @@ python manage.py runserver
 - django-filter - Dynamic queryset filtering
 - django-crispy-forms - Form rendering
 - crispy-bootstrap4 - Bootstrap 4 template pack
+
