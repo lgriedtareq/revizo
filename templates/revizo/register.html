@@ -8,8 +8,10 @@
 
 {% block content %}
 {% if registered %}
-    <div class="success-message">You are now registered!</div>
-    <a href="{% url 'revizo:home' %}" class="btn btn-primary">Return to the homepage</a>
+    <div class="hero">
+        <div class="success-message">You are now registered!</div>
+        <a href="{% url 'revizo:home' %}" class="btn-primary">Return to the homepage</a>
+    </div>
 {% else %}
     <form id="user_form" method="post" action="{% url 'revizo:register' %}" class="register-form">
         {% csrf_token %}

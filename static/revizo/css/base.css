@@ -172,12 +172,18 @@ body {
     padding: 60px 20px;
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
 }
 
 .hero h1 {
     font-size: 36px;
     color: var(--primary-color);
-    margin: 0 0 20px;
+    margin: 0;
+    text-align: center;
 }
 
 .success-message {
@@ -185,9 +191,10 @@ body {
     color: #155724;
     padding: 15px;
     border-radius: 8px;
-    margin: 20px auto 40px;
+    margin: 20px auto;
     max-width: 600px;
     text-align: center;
+    width: 100%;
 }
 
 .hero .subtitle {
@@ -195,6 +202,14 @@ body {
     margin: 0 auto 40px;
     max-width: 600px;
     line-height: 1.6;
+}
+
+.hero .btn-primary {
+    display: inline-block;
+    min-width: 200px;
+    text-decoration: none;
+    margin: 10px auto;
+    text-align: center;
 }
 
 .study-form,
