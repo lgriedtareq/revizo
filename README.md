@@ -1,5 +1,6 @@
 # Revizo - Flashcard Learning Platform
-lgriedtareq.pythonanywhere.com
+
+https://lgriedtareq.pythonanywhere.com/
 
 1. Clone the repository:
 ```bash
